@@ -2,12 +2,13 @@ from queue import Queue
 
 
 def part_a():
-    #q.get(), q.qsize(), q.empty()
-
-    fires = [(0, 3)]
+    
+    
+    fires = [(0, 3), (2, 1)]
 
     map_i = 3
     map_j = 4
+
     my_map = [[(0, False), (0, False), (0, False), (0, False)],
               [(0, False), (0, False), (0, False), (0, False)],
               [(0, False), (0, False), (0, False), (0, False)]]
@@ -23,12 +24,19 @@ def part_a():
             # print(my_map,end="\n")
             current_point = q.pop(0)
             for i in adjacent_points:
+
                 new_i = current_point[0] + i[0]
                 new_j = current_point[1] + i[1]
+
                 if(is_inside(new_i, new_j, map_i, map_j)):
-                    if(not my_map[new_i][new_j][1]):
+
+                    new_value = my_map[current_point[0]][current_point[1]]
+                    old_value = my_map[new_i][new_j]
+
+                    if(not my_map[new_i][new_j][1] or (new_value[0] + 1 < old_value[0])):
+
                         q.append((new_i, new_j))
-                        if(new_i == fire[0] and new_j == fire[1]):
+                        if((new_i, new_j) in fires):
                             continue
                         else:
                             a = my_map[current_point[0]][current_point[1]]
