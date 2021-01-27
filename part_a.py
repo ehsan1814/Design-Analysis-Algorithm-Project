@@ -8,6 +8,7 @@ def part_a():
 
     map_i = 3
     map_j = 4
+    k = 3
 
     my_map = [[(0, False), (0, False), (0, False), (0, False)],
               [(0, False), (0, False), (0, False), (0, False)],
@@ -33,14 +34,14 @@ def part_a():
                     new_value = my_map[current_point[0]][current_point[1]]
                     old_value = my_map[new_i][new_j]
 
-                    if(not my_map[new_i][new_j][1] or (new_value[0] + 1 < old_value[0])):
+                    if(not my_map[new_i][new_j][1] or (new_value[0] + k < old_value[0])):
 
                         q.append((new_i, new_j))
                         if((new_i, new_j) in fires):
                             continue
                         else:
                             a = my_map[current_point[0]][current_point[1]]
-                            my_map[new_i][new_j] = (a[0] + 1, True)
+                            my_map[new_i][new_j] = (a[0] + k, True)
     return my_map
 
 
