@@ -69,16 +69,15 @@ def operation_on_map(fires, map_size, k):
                          (0, -1), (-1, -1), (-1, 0), (-1, 1)]
 
     for fire in fires:
+        my_map[fire[0]][fire[1]] = (0, True)
+
+    for fire in fires:
         q = []
         q.append(fire)
-        #print(my_map, end="\n")
-        while(len(q) != 0):
-            #print(q, end="\n")
-            #q = list(dict.fromkeys(q))
-            current_point = q.pop(0)
-            # my_map[current_point[0]][current_point[1]] = (
-            #    current_point[0], True)
 
+        while(len(q) != 0):
+
+            current_point = q.pop(0)
             for adj in adjacent_vertices:
 
                 new_point = (current_point[0] + adj[0],
@@ -86,26 +85,21 @@ def operation_on_map(fires, map_size, k):
 
                 if(is_inside(new_point, map_size)):
 
-                    new_value = my_map[current_point[0]][current_point[1]]
-                    old_value = my_map[new_point[0]][new_point[1]]
+                    current_point_value = my_map[current_point[0]
+                                                 ][current_point[1]]
+                    new_point_value = my_map[new_point[0]][new_point[1]]
 
-                    if(not my_map[new_point[0]][new_point[1]][1] or (new_value[0] + k < old_value[0])):
+                    if(not new_point_value[1] or (current_point_value[0] + k < new_point_value[0])):
 
-                        # q.append(new_point)
-                        if(new_point in fires):
-                            continue
-                        else:
-                            current_value = my_map[current_point[0]
-                                                   ][current_point[1]][0]
-                            my_map[new_point[0]][new_point[1]] = (
-                                current_value + k, True)
-                            q.append(new_point)
-        # prints(my_map)
+                        current_value = current_point_value[0]
+                        my_map[new_point[0]][new_point[1]] = (
+                            current_value + k, True)
+                        q.append(new_point)
 
     return my_map
 
 
-def bfs_s_t(fires, map_size, pos_s, pos_t):
+def bfs_s_t(map_part_a,fires, map_size, pos_s, pos_t, k):
 
     map_i = map_size[0]
     map_j = map_size[1]
@@ -117,14 +111,22 @@ def bfs_s_t(fires, map_size, pos_s, pos_t):
     while(len(q) != 0):
         current_point = q.pop(0)
         if(current_point == pos_t):
+            #prints(map_bfs)
             return map_bfs[pos_t[0]][pos_t[1]][0]
 
         for adj in adjacent_vertices:
             new_point = (current_point[0] + adj[0], current_point[1] + adj[1])
 
             if(is_inside(new_point, map_size) and not map_bfs[new_point[0]][new_point[1]][1]):
-                if(new_point in fires):
-                    continue
+                # if remove fires it works
+                if(new_point in fires or map_bfs[current_point[0]][current_point[1]][0] + 1 >= map_part_a[new_point[0]][new_point[1]][0]):
+                    if(len(fires)==0):
+                        current_value = map_bfs[current_point[0]
+                                            ][current_point[1]][0]
+                        map_bfs[new_point[0]][new_point[1]] = (
+                        current_value + 1, True)
+                        q.append(new_point)
+                    
                 else:
                     current_value = map_bfs[current_point[0]
                                             ][current_point[1]][0]
@@ -132,13 +134,15 @@ def bfs_s_t(fires, map_size, pos_s, pos_t):
                         current_value + 1, True)
                     q.append(new_point)
 
+    
     return -1
 
 
 def part_b(fires, map_size, pos_s, pos_t, k):
 
-    value_from_s_to_t = bfs_s_t(fires, map_size, pos_s, pos_t)
-    map_part_a = operation_on_map(fires, map_size, k)
+    map_part_a = operation_on_map(fires,map_size,k)
+    value_from_s_to_t = bfs_s_t(map_part_a,fires, map_size, pos_s, pos_t, k)
+
     if(len(fires) == 0):
         return value_from_s_to_t
     elif(value_from_s_to_t == -1):
@@ -162,8 +166,9 @@ def prints(ls):
 
 if __name__ == "__main__":
     file_name_input = 'C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/B/b.in'
+    file_name_1 = 'b.in'
     file_name_output = 'ehsan.txt'
-    maps = get_all_map(file_name_input)
+    maps = get_all_map(file_name_1)
     result_of_map = []
     for a in maps:
         result_of_map.append(part_b(a.fires, a.map_size, a.s, a.t, a.k))
