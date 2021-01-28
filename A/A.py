@@ -22,17 +22,12 @@ def get_each_map(ls):
         for j in range(len(ls[i])):
             if(ls[i][j] == 'f'):
                 fires.append((i-1, j))
-            elif(ls[i][j] == 's' or ls[i][j] == 't'):
-                if(ls[i][j] == 's'):
-                    pos_s = (i-1, j)
-                else:
-                    pos_t = (i-1, j)
 
     map_size = (map_size_i, map_size_j)
     return Map(fires=fires, map_size=map_size, s=pos_s, t=pos_t, k=k)
 
 
-def get_all_map(file_name='C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/A/sample.in'):
+def get_all_map(file_name):
     i = 0
     maps = []
     file = open(file_name, 'r')
@@ -46,10 +41,17 @@ def get_all_map(file_name='C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of A
             maps.append(get_each_map(inp[i:i + length_map+1]))
 
         i = i + length_map + 1
-    
+
     file.close()
 
     return maps
+
+
+def write_on_file(file_name, data):
+    file = open(file_name, 'w')
+    for a in data:
+        file.write("{} {}\n".format(a[0], a[1]))
+    file.close()
 
 
 def operation_on_map(fires, map_size, k):
@@ -100,7 +102,7 @@ def operation_on_map(fires, map_size, k):
 def part_a(fires, map_size, k):
 
     result_map = operation_on_map(fires, map_size, k)
-    prints(result_map)
+    #prints(result_map)
     max_value = 0
     max_place = (0, 0)
     for i in range(len(result_map)):
@@ -125,22 +127,11 @@ def prints(ls):
         print(a, end="\n")
 
 
-fires1 = [(0, 3)]
-fires2 = [(1, 0)]
-fires3 = [(0, 0), (1, 1), (1, 5), (2, 4), (4, 6), (6, 5)]
-map_size1 = (3, 4)
-map_size2 = (2, 2)
-map_size3 = (7, 7)
-#prints(operation_on_map(fires3, map_size3, 2))
-print(part_a(fires3, map_size3, 2))
-#fires = [(0, 3), (2, 1)]
-#map_size = (3, 4)
-#k = 1
-#
-# print(part_b())
-#pos_s = (2, 3)
-#pos_t = (0, 0)
-#map_size = (3, 4)
-#fires = [(0, 3), (2, 1)]
-#
-#print(bfs_s_t((5, 3), (6, 0), (7, 7)))
+if __name__ == "__main__":
+    file_name_input ='C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/A/a.in'
+    file_name_output = 'ehsan.txt'
+    maps = get_all_map(file_name_input)
+    result_of_map = []
+    for a in maps:
+        result_of_map.append(part_a(a.fires,a.map_size,a.k))
+    write_on_file(file_name_output,result_of_map)

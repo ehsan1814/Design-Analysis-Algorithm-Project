@@ -33,7 +33,7 @@ def get_each_map(ls):
     return Map(fires=fires, map_size=map_size, s=pos_s, t=pos_t, k=k)
 
 
-def get_all_map(file_name='C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/B/sample.in'):
+def get_all_map(file_name):
     i = 0
     maps = []
     file = open(file_name, 'r')
@@ -47,14 +47,21 @@ def get_all_map(file_name='C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of A
             maps.append(get_each_map(inp[i:i + length_map+1]))
 
         i = i + length_map + 1
-    
+
     file.close()
 
     return maps
 
 
+def write_on_file(file_name, data):
+    file = open(file_name, 'w')
+    for a in data:
+        file.write("{}\n".format(a))
+    file.close()
+
+
 def operation_on_map(fires, map_size, k):
-    
+
     map_i = map_size[0]
     map_j = map_size[1]
     my_map = [[(0, False) for x in range(map_j)] for z in range(map_i)]
@@ -98,7 +105,7 @@ def operation_on_map(fires, map_size, k):
     return my_map
 
 
-def bfs_s_t(map_size, pos_s, pos_t):
+def bfs_s_t(fires, map_size, pos_s, pos_t):
 
     map_i = map_size[0]
     map_j = map_size[1]
@@ -116,19 +123,25 @@ def bfs_s_t(map_size, pos_s, pos_t):
             new_point = (current_point[0] + adj[0], current_point[1] + adj[1])
 
             if(is_inside(new_point, map_size) and not map_bfs[new_point[0]][new_point[1]][1]):
-                current_value = map_bfs[current_point[0]][current_point[1]][0]
-                map_bfs[new_point[0]][new_point[1]] = (current_value + 1, True)
-                q.append(new_point)
+                if(new_point in fires):
+                    continue
+                else:
+                    current_value = map_bfs[current_point[0]
+                                            ][current_point[1]][0]
+                    map_bfs[new_point[0]][new_point[1]] = (
+                        current_value + 1, True)
+                    q.append(new_point)
 
     return -1
 
 
 def part_b(fires, map_size, pos_s, pos_t, k):
 
-    value_from_s_to_t = bfs_s_t(map_size, pos_s, pos_t)
+    value_from_s_to_t = bfs_s_t(fires, map_size, pos_s, pos_t)
     map_part_a = operation_on_map(fires, map_size, k)
-
-    if(value_from_s_to_t == -1):
+    if(len(fires) == 0):
+        return value_from_s_to_t
+    elif(value_from_s_to_t == -1):
         return 'Impossible'
     elif(value_from_s_to_t < map_part_a[pos_t[0]][pos_t[1]][0]):
         return value_from_s_to_t
@@ -147,25 +160,11 @@ def prints(ls):
         print(a, end="\n")
 
 
-
-
-
-fires1 = [(0, 3)]
-fires2 = [(1, 0)]
-fires3 = [(0, 0), (1, 1), (1, 5), (2, 4), (4, 6), (6, 5)]
-map_size1 = (3, 4)
-map_size2 = (2, 2)
-map_size3 = (7, 7)
-#prints(operation_on_map(fires3, map_size3, 2))
-#print(part_a(fires3, map_size3, 2))
-#fires = [(0, 3), (2, 1)]
-#map_size = (3, 4)
-#k = 1
-#
-print(part_b(fires3, map_size3, (5, 3), (6, 0),2))
-#pos_s = (2, 3)
-#pos_t = (0, 0)
-#map_size = (3, 4)
-#fires = [(0, 3), (2, 1)]
-#
-#print(bfs_s_t((5, 3), (6, 0), (7, 7)))
+if __name__ == "__main__":
+    file_name_input = 'C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/B/b.in'
+    file_name_output = 'ehsan.txt'
+    maps = get_all_map(file_name_input)
+    result_of_map = []
+    for a in maps:
+        result_of_map.append(part_b(a.fires, a.map_size, a.s, a.t, a.k))
+    write_on_file(file_name_output, result_of_map)
