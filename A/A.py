@@ -10,6 +10,7 @@ class Map:
         return str("{} - {} - {} - {} - {}".format(self.fires, self.map_size, self.s, self.t, self.k))
 
 
+
 def get_each_map(ls):
     fires = []
     pos_s = (-1, -1)
@@ -68,14 +69,12 @@ def operation_on_map(fires, map_size, k):
     for fire in fires:
         q = []
         q.append(fire)
-        
         while(len(q) != 0):
-            
             current_point = q.pop(0)
+            #print(current_point)
             for adj in adjacent_vertices:
 
-                new_point = (current_point[0] + adj[0],
-                             current_point[1] + adj[1])
+                new_point = (current_point[0] + adj[0],current_point[1] + adj[1])
 
                 if(is_inside(new_point, map_size)):
 
