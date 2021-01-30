@@ -34,7 +34,7 @@ def get_each_map(ls):
     return Map(fires=fires, map_size=map_size, s=pos_s, t=pos_t, k=k)
 
 
-def get_all_map(file_name):
+def get_all_map(file_content):
     i = 0
     maps = []
     inp = file_content
@@ -43,6 +43,7 @@ def get_all_map(file_name):
         data = inp[i].split()
         length_map = int(data[0])
 
+        # end of file condition
         if(length_map != 0):
             maps.append(get_each_map(inp[i:i + length_map+1]))
 

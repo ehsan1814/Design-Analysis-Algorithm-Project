@@ -30,7 +30,7 @@ def get_each_map(ls):
     return Map(fires=fires, map_size=map_size, s=pos_s, t=pos_t, k=k)
 
 
-def get_all_map(file_content):
+def get_all_maps(file_content):
     i = 0
     maps = []
     inp = file_content
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     for a in fileinput.input():
         file_content.append(a)
 
-    maps = get_all_map(file_content)
+    maps = get_all_maps(file_content)
     
     result_of_map = []
     for m in maps:
