@@ -1,3 +1,5 @@
+import fileinput
+
 class Map:
     def __init__(self, fires=[], map_size=(0, 0), s=(-1, -1), t=(-1, -1), k=1):
         self.fires = fires
@@ -35,8 +37,7 @@ def get_each_map(ls):
 def get_all_map(file_name):
     i = 0
     maps = []
-    file = open(file_name, 'r')
-    inp = file.readlines()
+    inp = file_content
 
     while(i < len(inp)):
         data = inp[i].split()
@@ -47,7 +48,6 @@ def get_all_map(file_name):
 
         i = i + length_map + 1
     
-    file.close()
 
     return maps
 
@@ -64,5 +64,14 @@ def prints(f):
         print(a, end="\n")
 
 
-prints(get_all_map())
+if __name__ == "__main__":
+    
+    file_content = []
+    file_name_output = 'ehsan.txt'
+
+    for a in fileinput.input():
+        file_content.append(a)
+
+    maps = get_all_map(file_content)
+    prints(maps)
 

@@ -1,4 +1,6 @@
 
+import fileinput
+
 class Map:
     def __init__(self, fires=[], map_size=(0, 0), s=(-1, -1), t=(-1, -1), k=1):
         self.fires = fires
@@ -33,11 +35,10 @@ def get_each_map(ls):
     return Map(fires=fires, map_size=map_size, s=pos_s, t=pos_t, k=k)
 
 
-def get_all_map(file_name):
+def get_all_map(file_content):
     i = 0
     maps = []
-    file = open(file_name, 'r')
-    inp = file.readlines()
+    inp = file_content
 
     while(i < len(inp)):
         data = inp[i].split()
@@ -48,7 +49,6 @@ def get_all_map(file_name):
 
         i = i + length_map + 1
 
-    file.close()
 
     return maps
 
@@ -165,11 +165,17 @@ def prints(ls):
 
 
 if __name__ == "__main__":
-    file_name_input = 'C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/B/b.in'
-    file_name_1 = 'b.in'
+
+    file_content = []
     file_name_output = 'ehsan.txt'
-    maps = get_all_map(file_name_1)
+
+    for a in fileinput.input():
+        file_content.append(a)
+
+    maps = get_all_map(file_content)
+
     result_of_map = []
-    for a in maps:
-        result_of_map.append(part_b(a.fires, a.map_size, a.s, a.t, a.k))
+    for m in maps:
+        result_of_map.append(part_b(m.fires, m.map_size, m.s, m.t, m.k))
+    
     write_on_file(file_name_output, result_of_map)
