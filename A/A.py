@@ -119,7 +119,6 @@ def prints(ls):
 
 
 if __name__ == "__main__":
-    file_name_input ='C:/Users/Ehsan/Desktop/Ehsan/Design and Analysis of Algorithms/Design-Analysis-Algorithm-Project/A/a.in'
     file_name_output = 'ehsan.txt'
     file_name_1 = 'a.in'
     maps = get_all_map(file_name_1)
