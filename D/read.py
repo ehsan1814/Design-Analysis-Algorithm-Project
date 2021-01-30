@@ -1,4 +1,5 @@
 import fileinput
+import os
 
 class Test:
     def __init__(self,N,M,edges,treasure_no,treasures_in_cage,power):
@@ -60,9 +61,15 @@ def get_all_tests(file_content):
 
 if __name__ == "__main__":
 
-    file_content = []
-    for f in fileinput.input():
-        file_content.append(f)
-    
-    all_tests = get_all_tests(file_content)
+    #file_content = []
+    #for f in fileinput.input():
+    #    file_content.append(f)
+    #
+    #all_tests = get_all_tests(file_content)
+
+    for root,dirs, files in os.walk("./tests",topdown=False):
+        for file in files:
+            if(file[-2:] == "in"):
+                
+
 
